@@ -1,0 +1,73 @@
+<ui:FluentWindow x:Class="ModernNetworkRename.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="Network Rename Tool" Height="500" Width="900"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        Closing="FluentWindow_Closing">
+    
+    <Grid Margin="0,0,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶部标题栏 -->
+        <ui:TitleBar Grid.Row="0"
+                     x:Name="MainTitleBar"
+                     Title="Network Rename Tool" />
+
+        <!-- 第二行：左侧设备信息，右侧语言切换按钮（避免与窗口控制按钮重叠） -->
+        <Grid Grid.Row="1" Margin="20,10,20,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock x:Name="CurrentDeviceLabel"
+                           Text="当前设备"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                           Margin="0,0,0,2"/>
+                <TextBlock x:Name="MachineNameText"
+                           Text="PC-NAME"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+            </StackPanel>
+
+            <ui:Button Grid.Column="1"
+                       x:Name="LanguageToggleButton"
+                       Width="80"
+                       Margin="10,0,0,0"
+                       VerticalAlignment="Top"
+                       Appearance="Secondary"
+                       Content="中文"
+                       Click="LanguageToggleButton_Click" />
+        </Grid>
+        
+        <ui:DataGrid Grid.Row="2" x:Name="NetworksGrid" AutoGenerateColumns="False"
+                     CanUserAddRows="False" HeadersVisibility="Column"
+                     GridLinesVisibility="Horizontal" BorderThickness="0"
+                     Margin="20,10,20,10"
+                     CellEditEnding="NetworksGrid_CellEditEnding"
+                     PreviewKeyDown="NetworksGrid_PreviewKeyDown">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="ColRegistryKey" Header="Registry Key" Binding="{Binding Key}" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn x:Name="ColProfileName" Header="Profile Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn x:Name="ColDescription" Header="Description" Binding="{Binding Description}" Width="*"/>
+                <DataGridTextColumn x:Name="ColCategory" Header="Category" Binding="{Binding Category}" Width="100"/>
+            </DataGrid.Columns>
+        </ui:DataGrid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,10,20,10">
+            <ui:Button x:Name="CleanNetworksButton" Content="清理休眠网络" Appearance="Danger" Icon="Delete24" Margin="0,0,15,0" Click="CleanNetworksButton_Click"/>
+            <ui:Button x:Name="CancelButton" Content="取消" Margin="0,0,15,0" Click="CancelButton_Click"/>
+            <ui:Button x:Name="SaveButton" Content="保存修改" Appearance="Primary" Icon="Save24" Click="SaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</ui:FluentWindow>
